@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import router from "./routes";
+import { globalErrorhandelar } from "./middleware/globalErrorHnadelar/globalErrorhendelar";
 
 const app = express();
 
@@ -14,5 +15,7 @@ app.get("/", (req: Request, res: Response) => {
     message: "Welcome to parcel delivery",
   });
 });
+
+app.use(globalErrorhandelar);
 
 export default app;

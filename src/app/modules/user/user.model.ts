@@ -1,7 +1,7 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 import { IAuthProvider, isActive, IUser, Role } from "./user.interface";
 
-const authProviderSchema = new Schema<IAuthProvider>(
+export const authProviderSchema = new Schema<IAuthProvider>(
   {
     provider: { type: String, required: true },
     providerID: { type: String, required: true },
@@ -9,7 +9,7 @@ const authProviderSchema = new Schema<IAuthProvider>(
   { versionKey: false, _id: false }
 );
 
-const userSchema = new Schema<IUser>(
+export const userSchema = new Schema<IUser>(
   {
     name: { type: String, required: true },
     email: {
@@ -18,7 +18,7 @@ const userSchema = new Schema<IUser>(
       unique: true,
     },
     password: { type: String, required: true },
-    phone: { type: String, unique: true },
+    phone: { type: String },
     picture: { type: String },
     role: { type: String, enum: Object.values(Role), default: Role.RECEIVER },
     address: { type: String },
@@ -30,6 +30,7 @@ const userSchema = new Schema<IUser>(
     isDeleted: { type: Boolean, default: false },
     isVerified: { type: Boolean, default: false },
     auth: [authProviderSchema],
+    percel: [{ type: Types.ObjectId, ref: "percel" }],
   },
   {
     timestamps: true,
