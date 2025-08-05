@@ -1,4 +1,3 @@
-import { envVars } from "../../config/env";
 import AppError from "../../errorHelper/AppError";
 import { IAuthProvider, IUser } from "./user.interface";
 import { User } from "./user.model";

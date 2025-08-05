@@ -5,10 +5,22 @@ interface ENVConfig {
   PORT: string;
   DB_URL: string;
   BYCRIPT_SALT_ROUND: string;
+  JWT_ACCESS_SECRECT: string;
+  JWT_ACCESS_EXPIRE: string;
+  JWT_REFRESH_SECRECT: string;
+  JWT_REFRESH_EXPIRE: string;
 }
 
 const LoadEnvVariable = () => {
-  const requiredvariable: string[] = ["PORT", "DB_URL", "BYCRIPT_SALT_ROUND"];
+  const requiredvariable: string[] = [
+    "PORT",
+    "DB_URL",
+    "BYCRIPT_SALT_ROUND",
+    "JWT_ACCESS_SECRECT",
+    "JWT_ACCESS_EXPIRE",
+    "JWT_REFRESH_SECRECT",
+    "JWT_REFRESH_EXPIRE",
+  ];
 
   requiredvariable.forEach((key) => {
     if (!process.env[key]) {
@@ -20,6 +32,10 @@ const LoadEnvVariable = () => {
     PORT: process.env.PORT as string,
     DB_URL: process.env.DB_URL as string,
     BYCRIPT_SALT_ROUND: process.env.BYCRIPT_SALT_ROUND as string,
+    JWT_ACCESS_SECRECT: process.env.JWT_ACCESS_SECRECT as string,
+    JWT_ACCESS_EXPIRE: process.env.JWT_ACCESS_EXPIRE as string,
+    JWT_REFRESH_SECRECT: process.env.JWT_ACCESS_SECRECT as string,
+    JWT_REFRESH_EXPIRE: process.env.JWT_ACCESS_EXPIRE as string,
   };
 };
 
