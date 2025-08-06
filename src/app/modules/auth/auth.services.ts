@@ -4,6 +4,8 @@ import { IUser } from "../user/user.interface";
 import { User } from "../user/user.model";
 import { StatusCodes } from "http-status-codes";
 import { cretaeUserTocken } from "../../utils/cretaeUserTocken";
+import { JwtPayload } from "jsonwebtoken";
+import { envVars } from "../../config/env";
 
 const credentialLogIn = async (payload: Partial<IUser>) => {
   const { email, password } = payload;
@@ -33,6 +35,35 @@ const credentialLogIn = async (payload: Partial<IUser>) => {
   };
 };
 
+const resetPassword = async (
+  oldPassword: string,
+  newPassword: string,
+  decodedTocken: JwtPayload
+) => {
+  const user = await User.findById(decodedTocken.userId);
+
+  if (!user) {
+    throw new AppError(StatusCodes.NOT_FOUND, "user not found");
+  }
+
+  const oldPasswordMatch = bcryptjs.compare(oldPassword, user.password);
+  console.log(oldPasswordMatch);
+  if (!oldPasswordMatch) {
+    throw new AppError(StatusCodes.BAD_REQUEST, "invalid password");
+  }
+  const finalHashPass = await bcryptjs.hash(
+    newPassword as string,
+    Number(envVars.BYCRIPT_SALT_ROUND)
+  );
+
+  user.password = finalHashPass;
+  await user.save();
+  return {
+    messaage: "password upadted successfull",
+  };
+};
+
 export const authServices = {
   credentialLogIn,
+  resetPassword,
 };

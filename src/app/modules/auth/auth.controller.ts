@@ -2,15 +2,17 @@ import catchAsync from "../../utils/catchAsync";
 
 import { StatusCodes } from "http-status-codes";
 import { Request, Response, NextFunction } from "express";
+import { JwtPayload } from "jsonwebtoken";
 import { sendResponse } from "../../utils/sendResponse";
 import { setAuthCookie } from "../../utils/setCoockie";
 import { authServices } from "./auth.services";
+import AppError from "../../errorHelper/AppError";
 
 const credentialLogIn = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     console.log(req.body);
 
-    const loginInfo = await authServices.credentialLogIn(req.body); // ✅ spelling fix + await
+    const loginInfo = await authServices.credentialLogIn(req.body);
 
     console.log("accessToken", loginInfo.acccessTocken);
     console.log("refreshToken", loginInfo.refreshTocken);
@@ -52,7 +54,33 @@ const logOut = catchAsync(
   }
 );
 
+const resetPssword = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const oldPassword = req.body.oldPassword;
+    const newPassword = req.body.newPassword;
+
+    if (!req.user) {
+      throw new AppError(StatusCodes.UNAUTHORIZED, "unauthorized request");
+    }
+    const decodedTocken = req.user as JwtPayload;
+
+    const finalpass = await authServices.resetPassword(
+      oldPassword,
+      newPassword,
+      decodedTocken
+    );
+    console.log("resetPss", finalpass);
+    sendResponse(res, {
+      success: true,
+      statusCode: StatusCodes.OK,
+      message: "Password updated successfully",
+      data: null,
+    });
+  }
+);
+
 export const authController = {
   credentialLogIn,
   logOut,
+  resetPssword,
 };

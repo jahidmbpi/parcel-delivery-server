@@ -1,17 +1,19 @@
 import { Request, Response, NextFunction } from "express";
-import { isActive, Role } from "./user.interface";
-import AppError from "../../errorHelper/AppError";
+import { isActive, Role } from "../modules/user/user.interface";
+import AppError from "../errorHelper/AppError";
 import { StatusCodes } from "http-status-codes";
-import { envVars } from "../../config/env";
-import { User } from "./user.model";
-import { verifyTocken } from "../../utils/jwt";
+import { envVars } from "../config/env";
+import { User } from "../modules/user/user.model";
+import { verifyTocken } from "./jwt";
+
+// Extend Express Request interface to include 'user'
 import { JwtPayload } from "jsonwebtoken";
 
-export const cheakAurh = (...allawerRoles: Role[]) => {
+export const cheakAuth = (...allawerRoles: Role[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const accessTocken = req.headers.authorization;
-      if (accessTocken) {
+      if (!accessTocken) {
         throw new AppError(StatusCodes.UNAUTHORIZED, "you are not authorized");
       }
 
@@ -41,7 +43,8 @@ export const cheakAurh = (...allawerRoles: Role[]) => {
       if (!allawerRoles.includes(userRole)) {
         throw new AppError(403, "you are not permited this route");
       }
-      req.user = verifyTocken;
+      req.user = verifyedTocken;
+
       next();
     } catch (error) {
       next(error);
