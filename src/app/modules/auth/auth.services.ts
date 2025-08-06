@@ -33,6 +33,6 @@ const credentialLogIn = async (payload: Partial<IUser>) => {
   };
 };
 
-export const authServicecs = {
+export const authServices = {
   credentialLogIn,
 };
