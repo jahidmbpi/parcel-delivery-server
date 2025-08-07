@@ -20,9 +20,9 @@ export interface IPercel {
   waight: number;
   sender: Types.ObjectId;
   reciver: Types.ObjectId;
-  picUpAddress: string;
+  pickUpAddress: string;
   deliveryAddress: string;
-  deliverydate: Date;
+  deliveriDate: Date;
   fee: number;
   status: Status;
   trackingEvents: ITrackingEvent[];
