@@ -11,4 +11,10 @@ router.post(
   percelController.createPercel
 );
 
+router.get(
+  "/sender-percel",
+  cheakAuth(Role.SENDER),
+  percelController.getPercelForSender
+);
+
 export const percelRoute = router;

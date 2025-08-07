@@ -28,6 +28,20 @@ const createPercel = catchAsync(
   }
 );
 
+const getPercelForSender = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user?.userId;
+    const result = await parcelServices.getAllSenderPercel(userId);
+    sendResponse(res, {
+      success: true,
+      message: "all percel heare",
+      statusCode: StatusCodes.OK,
+      data: result,
+    });
+  }
+);
+
 export const percelController = {
   createPercel,
+  getPercelForSender,
 };
