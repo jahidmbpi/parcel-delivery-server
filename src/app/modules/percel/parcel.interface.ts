@@ -11,6 +11,7 @@ export enum Status {
 export interface ITrackingEvent {
   location: string;
   status: string;
+  updatedBy: Types.ObjectId;
   note?: string;
   timestamp: Date;
 }

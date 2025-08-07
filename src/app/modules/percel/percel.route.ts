@@ -13,7 +13,7 @@ router.post(
 
 router.get(
   "/sender-percel",
-  cheakAuth(Role.SENDER),
+  cheakAuth(Role.SENDER, Role.ADMIN, Role.RECEIVER),
   percelController.getPercelForSender
 );
 
