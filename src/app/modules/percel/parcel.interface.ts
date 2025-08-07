@@ -15,6 +15,7 @@ export interface ITrackingEvent {
   timestamp: Date;
 }
 export interface IPercel {
+  _id?: Types.ObjectId;
   trakinId: string;
   type: "document" | "box" | "fragile" | "other";
   waight: number;
