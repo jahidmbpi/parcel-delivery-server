@@ -16,6 +16,18 @@ const createUser = catchAsync(
   }
 );
 
+const getAllUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const allUser = await userServices.getAllUser();
+    sendResponse(res, {
+      success: true,
+      message: "all user get successfully",
+      statusCode: StatusCodes.OK,
+      data: allUser,
+    });
+  }
+);
+
 const updateUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.params.id;
@@ -44,4 +56,5 @@ const updateUser = catchAsync(
 export const userController = {
   createUser,
   updateUser,
+  getAllUser,
 };

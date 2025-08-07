@@ -13,6 +13,8 @@ router.post(
   userController.createUser
 );
 
+router.get("/", cheakAuth(Role.ADMIN), userController.getAllUser);
+
 router.patch(
   "/update/:id",
   cheakAuth(Role.ADMIN, Role.RECEIVER, Role.SENDER),
