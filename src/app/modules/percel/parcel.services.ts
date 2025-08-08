@@ -22,31 +22,71 @@ const createParcel = async (payload: IPercel, decodedTocken: JwtPayload) => {
   const parcel = await Parcel.create(payload);
   return parcel;
 };
-const getAllPercel = async (id: string) => {
-  const isSenderExsit = await User.findById(id);
-  if (!isSenderExsit) {
-    throw new AppError(StatusCodes.NOT_FOUND, "sender not found");
-  }
 
+//get all admin parcel
+const getAllAdminPercel = async (id: string) => {
   const user = await User.findById(id);
-  console.log(user);
+
   if (!user) {
     throw new AppError(StatusCodes.NOT_FOUND, "User not found");
   }
 
-  let parcels;
+  if (user.role !== Role.ADMIN) {
+    throw new AppError(
+      StatusCodes.NOT_FOUND,
+      "you are not permited this route"
+    );
+  }
 
-  if (user.role === Role.ADMIN) {
-    parcels = await Parcel.find({});
-  } else if (user.role === Role.SENDER) {
-    parcels = await Parcel.find({ sender: id });
-  } else if (user.role === Role.RECEIVER) {
-    parcels = await Parcel.find({ reciver: id });
-  } else {
-    throw new AppError(StatusCodes.FORBIDDEN, "You are not authorized");
+  const adminParcel = await Parcel.find({});
+  if (adminParcel.length < 0) {
+    throw new AppError(StatusCodes.BAD_REQUEST, "no parcel");
+  }
+  return adminParcel;
+};
+//incoming percel for riciver
+const incomingPercel = async (id: string) => {
+  const isreciver = await User.findById(id);
+
+  if (!isreciver) {
+    throw new AppError(StatusCodes.NOT_FOUND, "you are not authorized");
+  }
+
+  if (isreciver.role !== Role.RECEIVER) {
+    throw new AppError(
+      StatusCodes.BAD_REQUEST,
+      "you are not permited this route"
+    );
+  }
+
+  const parcels = await Parcel.find({ reciver: id });
+
+  if (!parcels || parcels.length === 0) {
+    throw new AppError(StatusCodes.NOT_FOUND, "you have no parcel");
   }
 
   return parcels;
+};
+
+//all parcel for sender
+const senderAllPercel = async (id: string) => {
+  const isSender = await User.findById(id);
+  if (!isSender) {
+    throw new AppError(StatusCodes.NOT_FOUND, "you are not authorized");
+  }
+  if (isSender.role !== Role.SENDER) {
+    throw new AppError(
+      StatusCodes.BAD_REQUEST,
+      "you are not permited this route"
+    );
+  }
+
+  const Senderparcels = await Parcel.find({ sender: id });
+
+  if (!Senderparcels || Senderparcels.length === 0) {
+    throw new AppError(StatusCodes.NOT_FOUND, "you have no parcel");
+  }
+  return Senderparcels;
 };
 
 const updateStatus = async (
@@ -84,6 +124,8 @@ const updateStatus = async (
 
 export const parcelServices = {
   createParcel,
-  getAllPercel,
+  getAllAdminPercel,
+  incomingPercel,
+  senderAllPercel,
   updateStatus,
 };

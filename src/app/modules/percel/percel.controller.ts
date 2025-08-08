@@ -30,13 +30,44 @@ const createPercel = catchAsync(
   }
 );
 
-const getPercelForSender = catchAsync(
+//incomi percel fior riviver
+const incomingParcel = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const userId = req.user?.userId;
-    const result = await parcelServices.getAllPercel(userId);
+    const id = req.user?.userId;
+    const parcelInfo = await parcelServices.incomingPercel(id);
+
     sendResponse(res, {
       success: true,
-      message: "all percel heare",
+      message: "all incoming percel for riciver percel heare",
+      statusCode: StatusCodes.OK,
+      data: parcelInfo,
+    });
+  }
+);
+
+//get percel for sender
+
+const senderParcel = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const senderId = req.user?.userId;
+    const parcelinfo = await parcelServices.senderAllPercel(senderId);
+    console.log(parcelinfo);
+    sendResponse(res, {
+      success: true,
+      message: "all incoming percel for sender percel heare",
+      statusCode: StatusCodes.OK,
+      data: parcelinfo,
+    });
+  }
+);
+
+const getPercelForAdmin = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user?.userId;
+    const result = await parcelServices.getAllAdminPercel(userId);
+    sendResponse(res, {
+      success: true,
+      message: "all admin percel heare",
       statusCode: StatusCodes.OK,
       data: result,
     });
@@ -70,6 +101,8 @@ const updateStatus = catchAsync(
 
 export const percelController = {
   createPercel,
-  getPercelForSender,
+  getPercelForAdmin,
   updateStatus,
+  incomingParcel,
+  senderParcel,
 };

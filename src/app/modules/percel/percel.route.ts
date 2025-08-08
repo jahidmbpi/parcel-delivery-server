@@ -11,10 +11,13 @@ router.post(
   percelController.createPercel
 );
 
+router.get("/me", cheakAuth(Role.RECEIVER), percelController.incomingParcel);
+router.get("/sender", cheakAuth(Role.SENDER), percelController.senderParcel);
+
 router.get(
-  "/sender-percel",
-  cheakAuth(Role.SENDER, Role.ADMIN, Role.RECEIVER),
-  percelController.getPercelForSender
+  "/admin-percel",
+  cheakAuth(Role.ADMIN),
+  percelController.getPercelForAdmin
 );
 
 export const percelRoute = router;
