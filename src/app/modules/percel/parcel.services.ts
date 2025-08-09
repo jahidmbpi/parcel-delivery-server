@@ -91,35 +91,40 @@ const senderAllPercel = async (id: string) => {
 
 const updateStatus = async (
   id: string,
-  updateStatus: string,
+  payload: { status: Status },
   decodedToken: JwtPayload
 ) => {
+  const newStatus = payload.status;
   const parcel = await Parcel.findById(id);
 
   if (!parcel) {
     throw new AppError(StatusCodes.NOT_FOUND, "Parcel not found");
   }
 
-  if (parcel.status === updateStatus) {
+  if (parcel.status === newStatus) {
     throw new AppError(
       StatusCodes.BAD_REQUEST,
       "Parcel already has this status"
     );
   }
 
-  parcel.status = updateStatus as Status;
+  if (newStatus === Status.APPROVED) {
+    if (decodedToken.role !== Role.ADMIN) {
+      throw new AppError(StatusCodes.NOT_FOUND, "only admin can approve");
+    }
+  }
+
+  parcel.status = newStatus;
   parcel.trackingEvents.push({
     location: `Updated by ${decodedToken.role}`,
     updatedBy: decodedToken.userId,
-    status: updateStatus,
+    status: newStatus,
     timestamp: new Date(),
   });
 
   await parcel.save();
 
-  return {
-    message: "percel update successfully",
-  };
+  return { message: "Parcel updated successfully" };
 };
 
 export const parcelServices = {

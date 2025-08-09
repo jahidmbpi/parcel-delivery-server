@@ -20,4 +20,10 @@ router.get(
   percelController.getPercelForAdmin
 );
 
+router.patch(
+  "/update/:id",
+  cheakAuth(Role.SENDER, Role.ADMIN),
+  percelController.updateStatus
+);
+
 export const percelRoute = router;

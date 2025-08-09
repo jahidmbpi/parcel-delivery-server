@@ -4,7 +4,7 @@ import { IPercel, ITrackingEvent, Status } from "./parcel.interface";
 export const trakinSchema = new Schema<ITrackingEvent>(
   {
     location: { type: String },
-    updatedBy: { type: Schema.ObjectId, ref: "User", required: true }, // ✅ fixed
+    updatedBy: { type: Schema.Types.String, ref: "User", required: true },
     status: { type: String },
     note: { type: String },
   },

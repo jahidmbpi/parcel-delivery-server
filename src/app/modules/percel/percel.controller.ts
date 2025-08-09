@@ -77,7 +77,7 @@ const getPercelForAdmin = catchAsync(
 const updateStatus = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const percelId = req.params.id;
-    const updateStatus = req.body;
+    const payload = req.body;
 
     if (!req.user) {
       throw new AppError(StatusCodes.UNAUTHORIZED, "you are not authorized");
@@ -86,7 +86,7 @@ const updateStatus = catchAsync(
 
     const updatedInfo = await parcelServices.updateStatus(
       percelId,
-      updateStatus,
+      payload,
       decodedToken
     );
 
