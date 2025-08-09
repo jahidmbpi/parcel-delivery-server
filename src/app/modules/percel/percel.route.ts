@@ -2,12 +2,15 @@ import { Router } from "express";
 import { cheakAuth } from "../../utils/cheakAuth";
 import { Role } from "../user/user.interface";
 import { percelController } from "./percel.controller";
+import validateRequest from "../../utils/validateRequest";
+import { percelZodSchema, updatePerceldZodSchema } from "./parcel.validation";
 
 const router = Router();
 
 router.post(
   "/create-percel",
   cheakAuth(Role.SENDER),
+  validateRequest(percelZodSchema),
   percelController.createPercel
 );
 
@@ -23,6 +26,7 @@ router.get(
 router.patch(
   "/update/:id",
   cheakAuth(Role.SENDER, Role.ADMIN),
+  validateRequest(updatePerceldZodSchema),
   percelController.updateStatus
 );
 
