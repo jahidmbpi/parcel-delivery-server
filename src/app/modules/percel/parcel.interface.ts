@@ -13,6 +13,7 @@ export interface ITrackingEvent {
   status: string;
   updatedBy: string;
   note?: string;
+  timestamp?: Date;
 }
 export interface IPercel {
   _id?: Types.ObjectId;

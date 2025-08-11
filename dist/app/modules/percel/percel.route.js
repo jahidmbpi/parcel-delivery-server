@@ -1,0 +1,19 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.percelRoute = void 0;
+const express_1 = require("express");
+const cheakAuth_1 = require("../../utils/cheakAuth");
+const user_interface_1 = require("../user/user.interface");
+const percel_controller_1 = require("./percel.controller");
+const validateRequest_1 = __importDefault(require("../../utils/validateRequest"));
+const parcel_validation_1 = require("./parcel.validation");
+const router = (0, express_1.Router)();
+router.post("/create-percel", (0, cheakAuth_1.cheakAuth)(user_interface_1.Role.SENDER), (0, validateRequest_1.default)(parcel_validation_1.percelZodSchema), percel_controller_1.percelController.createPercel);
+router.get("/me", (0, cheakAuth_1.cheakAuth)(user_interface_1.Role.RECEIVER), percel_controller_1.percelController.incomingParcel);
+router.get("/sender", (0, cheakAuth_1.cheakAuth)(user_interface_1.Role.SENDER), percel_controller_1.percelController.senderParcel);
+router.get("/admin-percel", (0, cheakAuth_1.cheakAuth)(user_interface_1.Role.ADMIN), percel_controller_1.percelController.getPercelForAdmin);
+router.patch("/update/:id", (0, cheakAuth_1.cheakAuth)(user_interface_1.Role.SENDER, user_interface_1.Role.ADMIN), (0, validateRequest_1.default)(parcel_validation_1.updatePerceldZodSchema), percel_controller_1.percelController.updateStatus);
+exports.percelRoute = router;
