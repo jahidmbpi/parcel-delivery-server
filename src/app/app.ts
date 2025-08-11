@@ -7,6 +7,11 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://assainment-4-client.vercel.app"],
+  })
+);
 
 app.use("/api/v1", router);
 

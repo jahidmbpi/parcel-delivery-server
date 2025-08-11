@@ -1,7 +1,6 @@
 import { object, z } from "zod";
 import { Status } from "./parcel.interface";
 
-// Define trackingEventSchema or import it from its module
 const trackingEventSchema = z.object({
   location: z.string(),
   status: z.string(),
