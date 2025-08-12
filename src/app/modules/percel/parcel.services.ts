@@ -119,7 +119,6 @@ const updateStatus = async (
     location: `Updated by ${decodedToken.role}`,
     updatedBy: decodedToken.userId,
     status: newStatus,
-    timestamp: new Date(),
   });
 
   await parcel.save();

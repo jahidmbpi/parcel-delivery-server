@@ -7,6 +7,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.set("trust proxy", 1);
 app.use(
   cors({
     origin: ["http://localhost:5173", "https://assainment-4-client.vercel.app"],

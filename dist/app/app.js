@@ -10,6 +10,7 @@ const globalErrorhendelar_1 = require("./middleware/globalErrorHnadelar/globalEr
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
+app.set("trust proxy", 1);
 app.use((0, cors_1.default)({
     origin: ["http://localhost:5173", "https://assainment-4-client.vercel.app"],
 }));

@@ -94,7 +94,6 @@ const updateStatus = (id, payload, decodedToken) => __awaiter(void 0, void 0, vo
         location: `Updated by ${decodedToken.role}`,
         updatedBy: decodedToken.userId,
         status: newStatus,
-        timestamp: new Date(),
     });
     yield parcel.save();
     return { message: "Parcel updated successfully" };
