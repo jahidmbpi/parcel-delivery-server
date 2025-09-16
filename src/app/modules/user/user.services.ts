@@ -79,8 +79,28 @@ const updateUser = async (
   return updatedUser;
 };
 
+const getMe = async (userId: string) => {
+  const isExsit = await User.findById(userId);
+  if (!isExsit) {
+    throw new AppError(404, "user not found");
+  }
+  if (isExsit.isDeleted === true) {
+    throw new AppError(404, "you are not authorized");
+  }
+
+  if (isExsit.isActive === "BLOCKED") {
+    throw new AppError(404, "you are not authorized");
+  }
+  if (isExsit._id.toString() !== userId) {
+    throw new AppError(404, "you are not authorized");
+  }
+
+  return isExsit;
+};
+
 export const userServices = {
   createUser,
   updateUser,
   getAllUser,
+  getMe,
 };

@@ -4,6 +4,7 @@ import { Request, Response, NextFunction } from "express";
 import { userServices } from "./user.services";
 import AppError from "../../errorHelper/AppError";
 import { sendResponse } from "../../utils/sendResponse";
+import { JwtPayload } from "jsonwebtoken";
 const createUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     console.log(req.body);
@@ -24,6 +25,24 @@ const getAllUser = catchAsync(
       message: "all user get successfully",
       statusCode: StatusCodes.OK,
       data: allUser,
+    });
+  }
+);
+
+const getMe = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const decodedTockent = req.user as JwtPayload;
+    if (!decodedTockent.userId) {
+      throw new AppError(404, "you are not authorized");
+    }
+
+    const logedInUser = await userServices.getMe(decodedTockent.userId);
+
+    sendResponse(res, {
+      success: true,
+      message: "user profile retrived success",
+      statusCode: StatusCodes.OK,
+      data: logedInUser,
     });
   }
 );
@@ -57,4 +76,5 @@ export const userController = {
   createUser,
   updateUser,
   getAllUser,
+  getMe,
 };
