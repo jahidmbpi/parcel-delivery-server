@@ -18,7 +18,7 @@ export const percelZodSchema = z.object({
         "trackingId must be in format: TRK-YYYYMMDD-XXXXXX (e.g. TRK-20230809-1A2B3C)",
     }),
   type: z.string({ message: "parcel wight must be string" }).optional(),
-  waight: z.number({ message: "parcel wight must be number" }).optional(),
+  weight: z.number({ message: "parcel wight must be number" }).optional(),
   sender: z.string(),
   reciver: z.string(),
   pickUpAddress: z
@@ -29,7 +29,10 @@ export const percelZodSchema = z.object({
     .string()
     .min(2, { message: "pickUpAddress is must be at least 2 charecter long" })
     .max(50, { message: "pickUpAddress id exceed 50 charecter" }),
-  deliveriDate: z.date(),
+  deliveriDate: z
+    .string()
+    .transform((val) => new Date(val))
+    .optional(),
   fee: z.number().min(1, { message: "fee  must be at least 1 charecter long" }),
   status: z.enum(Object.values(Status) as [string]).optional(),
   trackingEvents: z.array(trackingEventSchema).optional(),

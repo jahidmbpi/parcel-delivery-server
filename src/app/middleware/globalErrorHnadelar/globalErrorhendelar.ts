@@ -7,8 +7,9 @@ import { ZodError } from "zod";
 import { handelCastError } from "../../helpers/hendeleCstError";
 import { handelValidationError } from "../../helpers/handeleValidationError";
 import AppError from "../../errorHelper/AppError";
+import { deleteImageCloudenary } from "../../config/cloudenary.config";
 
-export const globalErrorhandelar = (
+export const globalErrorhandelar = async (
   err: any,
   req: Request,
   res: Response,
@@ -19,11 +20,26 @@ export const globalErrorhandelar = (
   let message = "Something went wrong!";
   let errorSources: TResponse[] = [];
 
+  if (req.file) {
+    await deleteImageCloudenary(req.file.path);
+  }
   // MongoDB duplicate key error
   if (err.code === 11000) {
     const simplified = handelDuplicateError(err);
     statusCode = simplified.statusCode;
     message = simplified.message;
+  }
+
+  if (
+    req.files &&
+    Array.isArray(req.files) &&
+    (req.files as Express.Multer.File[]).length > 0
+  ) {
+    const imageUrls = (req.files as Express.Multer.File[]).map(
+      (file) => file.path
+    );
+
+    await Promise.all(imageUrls.map((url) => deleteImageCloudenary(url)));
   }
 
   // Zod validation error

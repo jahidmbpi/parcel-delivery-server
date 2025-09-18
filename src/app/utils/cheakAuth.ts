@@ -12,7 +12,8 @@ import { JwtPayload } from "jsonwebtoken";
 export const cheakAuth = (...allawerRoles: Role[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const accessTocken = req.headers.authorization;
+      const accessTocken = req.headers.authorization || req.cookies.accessToken;
+
       if (!accessTocken) {
         throw new AppError(StatusCodes.UNAUTHORIZED, "you are not authorized");
       }

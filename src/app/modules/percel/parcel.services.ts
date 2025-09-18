@@ -114,6 +114,13 @@ const updateStatus = async (
     }
   }
 
+  if (parcel.status === Status.DISPATCHED) {
+    throw new AppError(StatusCodes.BAD_REQUEST, "percel already dispatch");
+  }
+  if (parcel.status === Status.DELIVERED) {
+    throw new AppError(StatusCodes.BAD_REQUEST, "percel already DELIVERED");
+  }
+
   parcel.status = newStatus;
   parcel.trackingEvents.push({
     location: `Updated by ${decodedToken.role}`,

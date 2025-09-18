@@ -78,6 +78,7 @@ const updateStatus = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const percelId = req.params.id;
     const payload = req.body;
+    console.log("update", payload, percelId);
 
     if (!req.user) {
       throw new AppError(StatusCodes.UNAUTHORIZED, "you are not authorized");

@@ -2,16 +2,17 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import router from "./routes";
 import { globalErrorhandelar } from "./middleware/globalErrorHnadelar/globalErrorhendelar";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
-app.use(cors());
 app.use(express.json());
-
 app.set("trust proxy", 1);
+app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://assainment-4-client.vercel.app"],
+    origin: "http://localhost:5173",
+    credentials: true,
   })
 );
 

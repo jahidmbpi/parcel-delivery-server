@@ -6,6 +6,7 @@ export enum Status {
   DISPATCHED = "DISPATCHED",
   IN_TRANSIT = "IN_TRANSIT",
   DELIVERED = "DELIVERED",
+  CANCELLED = "CANCELLED",
 }
 
 export interface ITrackingEvent {
@@ -18,7 +19,7 @@ export interface IPercel {
   _id?: Types.ObjectId;
   trakinId: string;
   type: "document" | "box" | "fragile" | "other";
-  waight: number;
+  weight: number;
   sender: Types.ObjectId;
   reciver: Types.ObjectId;
   pickUpAddress: string;
