@@ -70,6 +70,9 @@ const updateUser = async (
       throw new AppError(StatusCodes.FORBIDDEN, "you are not authorized");
     }
   }
+  if (payload.isDeleted) {
+    payload.isActive = "BLOCKED";
+  }
 
   const updatedUser = await User.findByIdAndUpdate(userId, payload, {
     new: true,

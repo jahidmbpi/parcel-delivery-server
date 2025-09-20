@@ -61,9 +61,12 @@ export const updatedUserZodSchema = z.object({
       message: "email can not excceed 100 charecter",
     })
     .optional(),
-  password: z.string().regex(/(?=.*[A-Z])/, {
-    message: "password must containt at least 1 upercase letter",
-  }),
+  password: z
+    .string()
+    .regex(/(?=.*[A-Z])/, {
+      message: "password must containt at least 1 upercase letter",
+    })
+    .optional(),
   phone: z
     .string()
     .regex(/^(?:\+8801\d{9}|01\d{9})$/, {
