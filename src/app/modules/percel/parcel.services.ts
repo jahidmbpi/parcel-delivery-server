@@ -1,10 +1,10 @@
+import { Role } from "./../user/user.interface";
 import { StatusCodes } from "http-status-codes";
 import AppError from "../../errorHelper/AppError";
 import { IPercel, Status } from "./parcel.interface";
 import { Parcel } from "./percel.model";
 import { JwtPayload } from "jsonwebtoken";
 import { User } from "../user/user.model";
-import { Role } from "../user/user.interface";
 
 const createParcel = async (payload: IPercel, decodedTocken: JwtPayload) => {
   const isExsitParcel = await Parcel.findOne({ trakinId: payload.trakinId });
@@ -126,6 +126,7 @@ const updateStatus = async (
     location: `Updated by ${decodedToken.role}`,
     updatedBy: decodedToken.userId,
     status: newStatus,
+    note: `this parcel updated by ${decodedToken.role}`,
   });
 
   await parcel.save();

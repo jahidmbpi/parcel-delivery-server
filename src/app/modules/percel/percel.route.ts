@@ -25,7 +25,7 @@ router.get(
 
 router.patch(
   "/update/:id",
-  cheakAuth(Role.SENDER, Role.ADMIN),
+  cheakAuth(Role.SENDER, Role.ADMIN, Role.RECEIVER),
   validateRequest(updatePerceldZodSchema),
   percelController.updateStatus
 );

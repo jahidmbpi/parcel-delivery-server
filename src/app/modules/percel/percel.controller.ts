@@ -64,6 +64,7 @@ const senderParcel = catchAsync(
 const getPercelForAdmin = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.user?.userId;
+    console.log(userId, "hiting this api");
     const result = await parcelServices.getAllAdminPercel(userId);
     sendResponse(res, {
       success: true,
