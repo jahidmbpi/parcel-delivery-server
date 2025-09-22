@@ -16,7 +16,7 @@ export const trakinSchema = new Schema<ITrackingEvent>(
 export const percelSchema = new Schema<IPercel>({
   trakinId: { type: String, required: true, unique: true },
   type: { type: String, default: "other" },
-  weight: { type: Number, required: true },
+  weight: { type: Number },
   sender: { type: Schema.ObjectId, ref: "User", required: true },
   reciver: { type: Schema.ObjectId, ref: "User", required: true },
   pickUpAddress: { type: String, required: true },

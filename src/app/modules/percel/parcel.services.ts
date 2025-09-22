@@ -134,10 +134,34 @@ const updateStatus = async (
   return { message: "Parcel updated successfully" };
 };
 
+const DeloveryHistory = async (userId: string) => {
+  const isUserExsit = await User.findById(userId);
+  console.log(isUserExsit);
+
+  if (!isUserExsit) {
+    throw new AppError(StatusCodes.NOT_FOUND, "user not found");
+  }
+
+  if (isUserExsit._id.toString() !== userId) {
+    throw new AppError(StatusCodes.UNAUTHORIZED, "You are not authorized");
+  }
+
+  const deliveredParcels = await Parcel.find({
+    reciver: userId,
+    status: "DELIVERED",
+  }).sort({ deliveriDate: -1 });
+
+  if (deliveredParcels.length < 0) {
+    throw new AppError(StatusCodes.NOT_FOUND, "no delivery percel found ");
+  }
+  return deliveredParcels;
+};
+
 export const parcelServices = {
   createParcel,
   getAllAdminPercel,
   incomingPercel,
   senderAllPercel,
   updateStatus,
+  DeloveryHistory,
 };

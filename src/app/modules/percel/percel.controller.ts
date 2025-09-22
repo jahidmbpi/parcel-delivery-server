@@ -101,10 +101,23 @@ const updateStatus = catchAsync(
   }
 );
 
+const deliverHistory = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const decodedToken = req.user as JwtPayload;
+    const result = await parcelServices.DeloveryHistory(decodedToken.userId);
+    sendResponse(res, {
+      success: true,
+      message: "updated status success",
+      statusCode: StatusCodes.OK,
+      data: result,
+    });
+  }
+);
 export const percelController = {
   createPercel,
   getPercelForAdmin,
   updateStatus,
   incomingParcel,
   senderParcel,
+  deliverHistory,
 };

@@ -14,9 +14,6 @@ const credentialLogIn = catchAsync(
 
     const loginInfo = await authServices.credentialLogIn(req.body);
 
-    console.log("accessToken", loginInfo.acccessTocken);
-    console.log("refreshToken", loginInfo.refreshTocken);
-
     setAuthCookie(res, {
       accessToken: loginInfo.acccessTocken,
       refreshToken: loginInfo.refreshTocken,

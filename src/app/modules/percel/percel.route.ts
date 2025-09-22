@@ -16,6 +16,11 @@ router.post(
 
 router.get("/me", cheakAuth(Role.RECEIVER), percelController.incomingParcel);
 router.get("/sender", cheakAuth(Role.SENDER), percelController.senderParcel);
+router.get(
+  "/history",
+  cheakAuth(Role.RECEIVER),
+  percelController.deliverHistory
+);
 
 router.get(
   "/admin-percel",

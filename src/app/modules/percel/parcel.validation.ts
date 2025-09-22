@@ -40,7 +40,7 @@ export const percelZodSchema = z.object({
 
 export const updatePerceldZodSchema = z.object({
   type: z.string({ message: "parcel wight must be string" }).optional(),
-  waight: z.number({ message: "parcel wight must be number" }).optional(),
+  weight: z.number({ message: "parcel wight must be number" }).optional(),
   sender: z.string().optional(),
   reciver: z.string().optional(),
   pickUpAddress: z
