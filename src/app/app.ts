@@ -3,11 +3,12 @@ import cors from "cors";
 import router from "./routes";
 import { globalErrorhandelar } from "./middleware/globalErrorHnadelar/globalErrorhendelar";
 import cookieParser from "cookie-parser";
+import { envVars } from "./config/env";
 
 const app = Express();
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: envVars.FRONTEND_URL,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })

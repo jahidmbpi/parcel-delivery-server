@@ -4,6 +4,7 @@ dotenv.config();
 interface ENVConfig {
   PORT: string;
   DB_URL: string;
+  NODE_ENV: string;
   BYCRIPT_SALT_ROUND: string;
   JWT_ACCESS_SECRECT: string;
   JWT_ACCESS_EXPIRE: string;
@@ -21,6 +22,7 @@ const LoadEnvVariable = () => {
   const requiredvariable: string[] = [
     "PORT",
     "DB_URL",
+    "NODE_ENV",
     "BYCRIPT_SALT_ROUND",
     "JWT_ACCESS_SECRECT",
     "JWT_ACCESS_EXPIRE",
@@ -41,6 +43,7 @@ const LoadEnvVariable = () => {
   return {
     PORT: process.env.PORT as string,
     DB_URL: process.env.DB_URL as string,
+    NODE_ENV: process.env.DB_URL as string,
     BYCRIPT_SALT_ROUND: process.env.BYCRIPT_SALT_ROUND as string,
     JWT_ACCESS_SECRECT: process.env.JWT_ACCESS_SECRECT as string,
     JWT_ACCESS_EXPIRE: process.env.JWT_ACCESS_EXPIRE as string,
