@@ -113,6 +113,20 @@ const deliverHistory = catchAsync(
     });
   }
 );
+const singlePercel = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { trakinId } = req.query as { trakinId: string };
+    console.log(trakinId);
+
+    const result = await parcelServices.SearchByTrakingId(trakinId);
+    sendResponse(res, {
+      success: true,
+      message: "single percel",
+      statusCode: StatusCodes.OK,
+      data: result,
+    });
+  }
+);
 export const percelController = {
   createPercel,
   getPercelForAdmin,
@@ -120,4 +134,5 @@ export const percelController = {
   incomingParcel,
   senderParcel,
   deliverHistory,
+  singlePercel,
 };

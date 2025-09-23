@@ -157,6 +157,17 @@ const DeloveryHistory = async (userId: string) => {
   return deliveredParcels;
 };
 
+const SearchByTrakingId = async (trackingId: string) => {
+  console.log(trackingId);
+
+  const singleParcel = await Parcel.findOne({ trakinId: trackingId });
+  if (!singleParcel) {
+    throw new AppError(404, "not found");
+  }
+  console.log(singleParcel);
+  return singleParcel;
+};
+
 export const parcelServices = {
   createParcel,
   getAllAdminPercel,
@@ -164,4 +175,5 @@ export const parcelServices = {
   senderAllPercel,
   updateStatus,
   DeloveryHistory,
+  SearchByTrakingId,
 };

@@ -21,6 +21,11 @@ router.get(
   cheakAuth(Role.RECEIVER),
   percelController.deliverHistory
 );
+router.get(
+  "/single",
+  cheakAuth(Role.RECEIVER, Role.ADMIN, Role.SENDER),
+  percelController.singlePercel
+);
 
 router.get(
   "/admin-percel",
