@@ -15,8 +15,6 @@ app.use((0, cors_1.default)({
         "https://percel-delevery-client.vercel.app",
     ],
     credentials: true,
-    // methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    // allowedHeaders: ["Content-Type", "Authorization"],
 }));
 app.use(express_1.default.json());
 app.set("trust proxy", 1);
