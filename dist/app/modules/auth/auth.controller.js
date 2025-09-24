@@ -19,11 +19,10 @@ const sendResponse_1 = require("../../utils/sendResponse");
 const setCoockie_1 = require("../../utils/setCoockie");
 const auth_services_1 = require("./auth.services");
 const AppError_1 = __importDefault(require("../../errorHelper/AppError"));
+const env_1 = require("../../config/env");
 const credentialLogIn = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(req.body);
     const loginInfo = yield auth_services_1.authServices.credentialLogIn(req.body);
-    console.log("accessToken", loginInfo.acccessTocken);
-    console.log("refreshToken", loginInfo.refreshTocken);
     (0, setCoockie_1.setAuthCookie)(res, {
         accessToken: loginInfo.acccessTocken,
         refreshToken: loginInfo.refreshTocken,
@@ -40,13 +39,13 @@ const credentialLogIn = (0, catchAsync_1.default)((req, res, next) => __awaiter(
 const logOut = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     res.clearCookie("accessToken", {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax",
+        secure: env_1.envVars.NODE_ENV === "production",
+        sameSite: env_1.envVars.NODE_ENV === "production" ? "none" : "lax",
     });
     res.clearCookie("refreshToken", {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax",
+        secure: env_1.envVars.NODE_ENV === "production",
+        sameSite: env_1.envVars.NODE_ENV === "production" ? "none" : "lax",
     });
     (0, sendResponse_1.sendResponse)(res, {
         success: true,

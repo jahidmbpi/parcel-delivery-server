@@ -69,14 +69,34 @@ const updateUser = (userId, payload, decodedTocken) => __awaiter(void 0, void 0,
             throw new AppError_1.default(http_status_codes_1.StatusCodes.FORBIDDEN, "you are not authorized");
         }
     }
+    if (payload.isDeleted) {
+        payload.isActive = "BLOCKED";
+    }
     const updatedUser = yield user_model_1.User.findByIdAndUpdate(userId, payload, {
         new: true,
         runValidators: true,
     });
     return updatedUser;
 });
+const getMe = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const isExsit = yield user_model_1.User.findById(userId);
+    if (!isExsit) {
+        throw new AppError_1.default(404, "user not found");
+    }
+    if (isExsit.isDeleted === true) {
+        throw new AppError_1.default(404, "you are not authorized");
+    }
+    if (isExsit.isActive === "BLOCKED") {
+        throw new AppError_1.default(404, "you are not authorized");
+    }
+    if (isExsit._id.toString() !== userId) {
+        throw new AppError_1.default(404, "you are not authorized");
+    }
+    return isExsit;
+});
 exports.userServices = {
     createUser,
     updateUser,
     getAllUser,
+    getMe,
 };

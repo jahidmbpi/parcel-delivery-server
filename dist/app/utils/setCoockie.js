@@ -1,20 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setAuthCookie = void 0;
+const env_1 = require("./../config/env");
 const setAuthCookie = (res, tokenInfo) => {
-    console.log("access", tokenInfo.accessToken);
     if (tokenInfo.accessToken) {
         res.cookie("accessToken", tokenInfo.accessToken, {
             httpOnly: true,
-            secure: false,
+            secure: env_1.envVars.NODE_ENV === "production",
             sameSite: "none",
         });
     }
     if (tokenInfo.refreshToken) {
         res.cookie("refreshToken", tokenInfo.refreshToken, {
             httpOnly: true,
-            secure: false,
-            sameSite: "none",
+            secure: env_1.envVars.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         });
     }
 };

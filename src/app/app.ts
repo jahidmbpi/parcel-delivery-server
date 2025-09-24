@@ -8,8 +8,10 @@ import { envVars } from "./config/env";
 const app = Express();
 app.use(
   cors({
-    origin: envVars.FRONTEND_URL,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    origin: [
+      "http://localhost:5173",
+      "https://percel-delevery-client.vercel.app",
+    ],
     credentials: true,
   })
 );

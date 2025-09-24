@@ -18,7 +18,7 @@ exports.percelZodSchema = zod_1.z.object({
         message: "trackingId must be in format: TRK-YYYYMMDD-XXXXXX (e.g. TRK-20230809-1A2B3C)",
     }),
     type: zod_1.z.string({ message: "parcel wight must be string" }).optional(),
-    waight: zod_1.z.number({ message: "parcel wight must be number" }).optional(),
+    weight: zod_1.z.number({ message: "parcel wight must be number" }).optional(),
     sender: zod_1.z.string(),
     reciver: zod_1.z.string(),
     pickUpAddress: zod_1.z
@@ -29,14 +29,17 @@ exports.percelZodSchema = zod_1.z.object({
         .string()
         .min(2, { message: "pickUpAddress is must be at least 2 charecter long" })
         .max(50, { message: "pickUpAddress id exceed 50 charecter" }),
-    deliveriDate: zod_1.z.date(),
+    deliveriDate: zod_1.z
+        .string()
+        .transform((val) => new Date(val))
+        .optional(),
     fee: zod_1.z.number().min(1, { message: "fee  must be at least 1 charecter long" }),
     status: zod_1.z.enum(Object.values(parcel_interface_1.Status)).optional(),
     trackingEvents: zod_1.z.array(trackingEventSchema).optional(),
 });
 exports.updatePerceldZodSchema = zod_1.z.object({
     type: zod_1.z.string({ message: "parcel wight must be string" }).optional(),
-    waight: zod_1.z.number({ message: "parcel wight must be number" }).optional(),
+    weight: zod_1.z.number({ message: "parcel wight must be number" }).optional(),
     sender: zod_1.z.string().optional(),
     reciver: zod_1.z.string().optional(),
     pickUpAddress: zod_1.z

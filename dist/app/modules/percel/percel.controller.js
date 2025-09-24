@@ -61,6 +61,7 @@ const senderParcel = (0, catchAsync_1.default)((req, res, next) => __awaiter(voi
 const getPercelForAdmin = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
+    console.log(userId, "hiting this api");
     const result = yield parcel_services_1.parcelServices.getAllAdminPercel(userId);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
@@ -72,6 +73,7 @@ const getPercelForAdmin = (0, catchAsync_1.default)((req, res, next) => __awaite
 const updateStatus = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const percelId = req.params.id;
     const payload = req.body;
+    console.log("update", payload, percelId);
     if (!req.user) {
         throw new AppError_1.default(http_status_codes_1.StatusCodes.UNAUTHORIZED, "you are not authorized");
     }
@@ -84,10 +86,33 @@ const updateStatus = (0, catchAsync_1.default)((req, res, next) => __awaiter(voi
         data: updatedInfo,
     });
 }));
+const deliverHistory = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const decodedToken = req.user;
+    const result = yield parcel_services_1.parcelServices.DeloveryHistory(decodedToken.userId);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        message: "updated status success",
+        statusCode: http_status_codes_1.StatusCodes.OK,
+        data: result,
+    });
+}));
+const singlePercel = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { trakinId } = req.query;
+    console.log(trakinId);
+    const result = yield parcel_services_1.parcelServices.SearchByTrakingId(trakinId);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        message: "single percel",
+        statusCode: http_status_codes_1.StatusCodes.OK,
+        data: result,
+    });
+}));
 exports.percelController = {
     createPercel,
     getPercelForAdmin,
     updateStatus,
     incomingParcel,
     senderParcel,
+    deliverHistory,
+    singlePercel,
 };

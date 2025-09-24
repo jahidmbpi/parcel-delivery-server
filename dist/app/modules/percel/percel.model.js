@@ -14,7 +14,7 @@ exports.trakinSchema = new mongoose_1.Schema({
 exports.percelSchema = new mongoose_1.Schema({
     trakinId: { type: String, required: true, unique: true },
     type: { type: String, default: "other" },
-    waight: { type: Number, required: true },
+    weight: { type: Number },
     sender: { type: mongoose_1.Schema.ObjectId, ref: "User", required: true },
     reciver: { type: mongoose_1.Schema.ObjectId, ref: "User", required: true },
     pickUpAddress: { type: String, required: true },

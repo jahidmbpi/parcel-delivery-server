@@ -8,4 +8,5 @@ var Status;
     Status["DISPATCHED"] = "DISPATCHED";
     Status["IN_TRANSIT"] = "IN_TRANSIT";
     Status["DELIVERED"] = "DELIVERED";
+    Status["CANCELLED"] = "CANCELLED";
 })(Status || (exports.Status = Status = {}));

@@ -36,6 +36,19 @@ const getAllUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 
         data: allUser,
     });
 }));
+const getMe = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const decodedTockent = req.user;
+    if (!decodedTockent.userId) {
+        throw new AppError_1.default(404, "you are not authorized");
+    }
+    const logedInUser = yield user_services_1.userServices.getMe(decodedTockent.userId);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        message: "user profile retrived success",
+        statusCode: http_status_codes_1.StatusCodes.OK,
+        data: logedInUser,
+    });
+}));
 const updateUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.id;
     const payload = req.body;
@@ -56,4 +69,5 @@ exports.userController = {
     createUser,
     updateUser,
     getAllUser,
+    getMe,
 };

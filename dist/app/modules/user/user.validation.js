@@ -64,9 +64,12 @@ exports.updatedUserZodSchema = zod_1.default.object({
         message: "email can not excceed 100 charecter",
     })
         .optional(),
-    password: zod_1.default.string().regex(/(?=.*[A-Z])/, {
+    password: zod_1.default
+        .string()
+        .regex(/(?=.*[A-Z])/, {
         message: "password must containt at least 1 upercase letter",
-    }),
+    })
+        .optional(),
     phone: zod_1.default
         .string()
         .regex(/^(?:\+8801\d{9}|01\d{9})$/, {

@@ -22,7 +22,7 @@ const jwt_1 = require("./jwt");
 const cheakAuth = (...allawerRoles) => {
     return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const accessTocken = req.headers.authorization;
+            const accessTocken = req.headers.authorization || req.cookies.accessToken;
             if (!accessTocken) {
                 throw new AppError_1.default(http_status_codes_1.StatusCodes.UNAUTHORIZED, "you are not authorized");
             }

@@ -7,6 +7,7 @@ import { sendResponse } from "../../utils/sendResponse";
 import { setAuthCookie } from "../../utils/setCoockie";
 import { authServices } from "./auth.services";
 import AppError from "../../errorHelper/AppError";
+import { envVars } from "../../config/env";
 
 const credentialLogIn = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -34,13 +35,13 @@ const logOut = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     res.clearCookie("accessToken", {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: envVars.NODE_ENV === "production",
+      sameSite: envVars.NODE_ENV === "production" ? "none" : "lax",
     });
     res.clearCookie("refreshToken", {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: envVars.NODE_ENV === "production",
+      sameSite: envVars.NODE_ENV === "production" ? "none" : "lax",
     });
     sendResponse(res, {
       success: true,
